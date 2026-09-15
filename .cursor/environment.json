@@ -1,0 +1,12 @@
+{
+  "name": "Tu Comunidad (Flutter web)",
+  "user": "ubuntu",
+  "install": "bash .cursor/install.sh",
+  "terminals": [
+    {
+      "name": "flutter-web",
+      "command": "export PATH=\"$HOME/flutter/bin:$PATH\"; cd /workspace && flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8080"
+    }
+  ],
+  "ports": [8080]
+}
