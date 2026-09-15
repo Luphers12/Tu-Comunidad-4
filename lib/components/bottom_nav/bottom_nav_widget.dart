@@ -57,11 +57,13 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Builder(builder: (_) {
-                return widget.child != null
-                    ? widget.child!()
-                    : SizedBox.shrink();
-              }),
+              Expanded(
+                child: Builder(builder: (_) {
+                  return widget.child != null
+                      ? widget.child!()
+                      : SizedBox.shrink();
+                }),
+              ),
             ],
           ),
         ),
