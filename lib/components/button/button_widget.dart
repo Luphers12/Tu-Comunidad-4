@@ -322,65 +322,70 @@ class _ButtonWidgetState extends State<ButtonWidget> {
                       true,
                     ))
                       widget.icon!,
-                    Text(
-                      valueOrDefault<String>(
-                        widget.content,
-                        'Explorar el Mercado',
-                      ),
-                      maxLines: 1,
-                      style: FlutterFlowTheme.of(context).labelMedium.override(
-                            font: GoogleFonts.sourceSans3(
+                    Flexible(
+                      child: Text(
+                        valueOrDefault<String>(
+                          widget.content,
+                          'Explorar el Mercado',
+                        ),
+                        maxLines: 1,
+                        style: FlutterFlowTheme.of(context)
+                            .labelMedium
+                            .override(
+                              font: GoogleFonts.sourceSans3(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
+                              ),
+                              color: valueOrDefault<Color>(
+                                () {
+                                  if (valueOrDefault<String>(
+                                        widget.variant,
+                                        'primary',
+                                      ) ==
+                                      'secondary') {
+                                    return FlutterFlowTheme.of(context)
+                                        .onSecondary;
+                                  } else if (valueOrDefault<String>(
+                                        widget.variant,
+                                        'primary',
+                                      ) ==
+                                      'outline') {
+                                    return FlutterFlowTheme.of(context)
+                                        .primaryText;
+                                  } else if (valueOrDefault<String>(
+                                        widget.variant,
+                                        'primary',
+                                      ) ==
+                                      'ghost') {
+                                    return FlutterFlowTheme.of(context).primary;
+                                  } else if (valueOrDefault<String>(
+                                        widget.variant,
+                                        'primary',
+                                      ) ==
+                                      'destructive') {
+                                    return FlutterFlowTheme.of(context).onError;
+                                  } else {
+                                    return FlutterFlowTheme.of(context)
+                                        .onPrimary;
+                                  }
+                                }(),
+                                FlutterFlowTheme.of(context).onPrimary,
+                              ),
+                              letterSpacing: 0.0,
                               fontWeight: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .fontWeight,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .fontStyle,
+                              lineHeight: 1.3,
                             ),
-                            color: valueOrDefault<Color>(
-                              () {
-                                if (valueOrDefault<String>(
-                                      widget.variant,
-                                      'primary',
-                                    ) ==
-                                    'secondary') {
-                                  return FlutterFlowTheme.of(context)
-                                      .onSecondary;
-                                } else if (valueOrDefault<String>(
-                                      widget.variant,
-                                      'primary',
-                                    ) ==
-                                    'outline') {
-                                  return FlutterFlowTheme.of(context)
-                                      .primaryText;
-                                } else if (valueOrDefault<String>(
-                                      widget.variant,
-                                      'primary',
-                                    ) ==
-                                    'ghost') {
-                                  return FlutterFlowTheme.of(context).primary;
-                                } else if (valueOrDefault<String>(
-                                      widget.variant,
-                                      'primary',
-                                    ) ==
-                                    'destructive') {
-                                  return FlutterFlowTheme.of(context).onError;
-                                } else {
-                                  return FlutterFlowTheme.of(context).onPrimary;
-                                }
-                              }(),
-                              FlutterFlowTheme.of(context).onPrimary,
-                            ),
-                            letterSpacing: 0.0,
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .fontStyle,
-                            lineHeight: 1.3,
-                          ),
-                      overflow: TextOverflow.clip,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     if (valueOrDefault<bool>(
                       widget.iconEndPresent,

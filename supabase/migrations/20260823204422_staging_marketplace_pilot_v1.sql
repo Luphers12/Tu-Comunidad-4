@@ -12,7 +12,8 @@ begin
   limit 1;
 
   if v_person_id is null then
-    raise exception 'STAGING_SEED_PERSON_MISSING';
+    raise notice 'STAGING_SEED_PERSON_MISSING: skipping pilot store seed';
+    return;
   end if;
 
   select c.public_id into v_bulej_public_id

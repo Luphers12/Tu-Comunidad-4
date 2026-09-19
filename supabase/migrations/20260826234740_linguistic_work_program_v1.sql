@@ -509,6 +509,13 @@ as $$
    order by a.submitted_at desc;
 $$;
 
+insert into public.tc_feature_gates(feature_key,domain,parent_feature_key,display_name,source_status,backend_status,safety_status,legal_status,cultural_status,approval_status,is_enabled,notes)
+values
+ ('linguistics.work_program','LINGUISTICS',null,'Programa de trabajo lingüístico','VERIFIED','VERIFIED','PENDING','PENDING','PENDING','PENDING',false,'Raíz del dominio lingüístico. Fail-closed: habilita solo tras aprobación de seguridad, legal y cultural.')
+on conflict(feature_key) do update set
+ backend_status='VERIFIED',
+ updated_at=now();
+
 revoke all on function public.tc_list_open_linguistic_jobs() from public;
 revoke all on function public.tc_apply_linguistic_job(text,jsonb,boolean,boolean,boolean,boolean) from public;
 revoke all on function public.tc_list_my_linguistic_applications() from public;
