@@ -1,0 +1,1 @@
+CREATE TABLE public._tc_migration_chunks (seq integer PRIMARY KEY, chunk text NOT NULL); REVOKE ALL ON TABLE public._tc_migration_chunks FROM PUBLIC, anon, authenticated;

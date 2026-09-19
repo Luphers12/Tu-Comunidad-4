@@ -1,0 +1,1 @@
+grant guardian_mcp_reader to postgres;

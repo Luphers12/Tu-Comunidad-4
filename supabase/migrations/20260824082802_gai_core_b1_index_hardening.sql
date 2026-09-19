@@ -1,0 +1,11 @@
+CREATE INDEX idx_gai_events_actor_person ON public.gai_incident_events(actor_person_id);
+CREATE INDEX idx_gai_events_actor_profile ON public.gai_incident_events(actor_profile_id);
+CREATE INDEX idx_gai_evidence_links_evidence ON public.gai_incident_evidence_links(evidence_id);
+CREATE INDEX idx_gai_evidence_links_event ON public.gai_incident_evidence_links(incident_event_id) WHERE incident_event_id IS NOT NULL;
+CREATE INDEX idx_gai_recipients_profile ON public.gai_incident_recipients(profile_id);
+CREATE INDEX idx_gai_incidents_creator_person ON public.gai_incidents(created_by_person_id);
+CREATE INDEX idx_gai_incidents_creator_profile ON public.gai_incidents(created_by_profile_id);
+CREATE INDEX idx_gai_incidents_type ON public.gai_incidents(incident_type);
+CREATE INDEX idx_gai_outbox_incident ON public.gai_notification_outbox(incident_id);
+CREATE INDEX idx_gai_outbox_event ON public.gai_notification_outbox(incident_event_id);
+CREATE INDEX idx_gai_outbox_recipient ON public.gai_notification_outbox(recipient_profile_id);

@@ -1,0 +1,1 @@
+drop index if exists public.uq_affiliation_active_role_per_person;

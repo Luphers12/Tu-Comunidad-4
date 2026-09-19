@@ -1,0 +1,11 @@
+CREATE TYPE public.tc_sync_resolution_type AS ENUM ('APPLIED','DUPLICATE','IGNORED_STALE','REJECTED_INVALID_TRANSITION','REJECTED_UNAUTHORIZED','CONFLICT_NEEDS_REVIEW','RETRY_LATER');
+ALTER TABLE public.event_inbox ADD COLUMN sync_resolution public.tc_sync_resolution_type, ADD COLUMN retry_count integer NOT NULL DEFAULT 0 CHECK (retry_count >= 0), ADD COLUMN last_attempt_at timestamptz, ADD COLUMN observed_entity_version bigint, ADD COLUMN decision_metadata jsonb NOT NULL DEFAULT '{}'::jsonb;
+UPDATE public.event_inbox SET sync_resolution = CASE WHEN disposition='APPLIED' THEN 'APPLIED'::public.tc_sync_resolution_type WHEN disposition='CONFLICT' THEN 'CONFLICT_NEEDS_REVIEW'::public.tc_sync_resolution_type WHEN disposition='RETRY_LATER' THEN 'RETRY_LATER'::public.tc_sync_resolution_type WHEN disposition='REJECTED' THEN 'REJECTED_INVALID_TRANSITION'::public.tc_sync_resolution_type ELSE sync_resolution END WHERE sync_resolution IS NULL;
+CREATE INDEX idx_event_inbox_sync_resolution ON public.event_inbox(sync_resolution, received_at);
+CREATE INDEX idx_event_inbox_retry ON public.event_inbox(processing_status, retry_count, last_attempt_at) WHERE processing_status='RETRY';
+ALTER TABLE public.sync_conflicts ADD COLUMN entity_type text NOT NULL DEFAULT 'MOVEMENT', ADD COLUMN metadata jsonb NOT NULL DEFAULT '{}'::jsonb;
+CREATE INDEX idx_sync_conflicts_reason_status ON public.sync_conflicts(reason, resolution_status, detected_at);
+CREATE POLICY sync_conflicts_admin_read ON public.sync_conflicts FOR SELECT TO authenticated USING (EXISTS (SELECT 1 FROM public.current_user_profile_ids() p WHERE p.profile_type='ADM'));
+CREATE OR REPLACE VIEW public.pending_sync_conflicts WITH (security_invoker=true) AS SELECT sc.public_id AS conflict_public_id, sc.event_id, sc.entity_type, sc.entity_id, sc.current_version, sc.expected_version, sc.current_state, sc.requested_event, sc.reason, sc.detected_at, sc.resolution_status, sc.metadata FROM public.sync_conflicts sc WHERE sc.resolution_status='PENDING';
+REVOKE ALL ON TABLE public.pending_sync_conflicts FROM PUBLIC, anon, authenticated;
+GRANT SELECT ON TABLE public.pending_sync_conflicts TO authenticated;

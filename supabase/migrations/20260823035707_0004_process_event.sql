@@ -1,0 +1,1 @@
+DO $$ DECLARE v_sql text; BEGIN SELECT convert_from(decode(string_agg(chunk, '' ORDER BY seq), 'base64'),'UTF8') INTO v_sql FROM public._tc_migration_chunks; EXECUTE v_sql; END; $$;
