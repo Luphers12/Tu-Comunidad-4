@@ -15,7 +15,7 @@ No Production, merge, or deploy was performed.
 
 Migration:
 
-`20260921165000_con_context_authorization_window_v1.sql`
+`20260921171444_con_context_authorization_window_v1.sql`
 
 Purpose:
 
@@ -27,9 +27,9 @@ GitHub commit that added the migration:
 
 `543cfbc2363f6780fdc87960345d81f8c8b93751`
 
-Supabase migration applied successfully as:
+Supabase migration applied successfully as canonical STAGING version:
 
-`con_context_authorization_window_v1`
+`20260921171444_con_context_authorization_window_v1`
 
 ## Active profile fixture set
 
