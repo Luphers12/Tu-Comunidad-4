@@ -203,6 +203,13 @@ revoke all on public.v_linguistic_contributor_portfolio from anon, authenticated
 
 insert into public.tc_feature_gates(feature_key,domain,parent_feature_key,display_name,source_status,backend_status,safety_status,legal_status,cultural_status,approval_status,is_enabled,notes)
 values
+ ('linguistics.compensation','LINGUISTICS','linguistics.work_program','Compensación de trabajo lingüístico','VERIFIED','VERIFIED','PENDING','PENDING','PENDING','PENDING',false,'Raíz de compensación lingüística. Fail-closed: no autoriza emitir dinero ni Créditos TC.')
+on conflict(feature_key) do update set
+ backend_status='VERIFIED',
+ updated_at=now();
+
+insert into public.tc_feature_gates(feature_key,domain,parent_feature_key,display_name,source_status,backend_status,safety_status,legal_status,cultural_status,approval_status,is_enabled,notes)
+values
  ('linguistics.engagement_classification','LINGUISTICS','linguistics.work_program','Clasificación de vínculo laboral lingüístico','VERIFIED','VERIFIED','PENDING','PENDING','PENDING','PENDING',false,'La clasificación EMPLOYEE/CONTRACTOR/PAID_TASK/COMMUNITY no es automática y requiere revisión legal antes de uso operativo.'),
  ('linguistics.compensation_schedules','LINGUISTICS','linguistics.compensation','Tarifas y devengo de trabajo lingüístico','VERIFIED','VERIFIED','PENDING','PENDING','PENDING','PENDING',false,'Permite definir tarifas y calcular devengos; no autoriza emitir dinero ni Créditos TC.')
 on conflict(feature_key) do update set
